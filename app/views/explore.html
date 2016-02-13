@@ -161,6 +161,29 @@
       </div>
     </div> <!-- end filterPanel -->
 
+    <div ng-show="heatmapPanel">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <h3>
+            Heatmap
+            <i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <hr>
+      </div>
+      <div class="row">
+        {{ markers.length }} markers!
+      </div>
+      <div class="row">
+        <hr>
+      </div>
+      <div class="row">
+        <alert ng-repeat="marker in (filteredMarkers = (markers | filterPhenomenons:selectedFilterOption:searchText))" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+      </div>
+    </div> <!-- end heatmapPanel -->
+
     <div ng-show="downloadPanel">
       <div class="row">
         <div class="col-xs-12 col-md-12">

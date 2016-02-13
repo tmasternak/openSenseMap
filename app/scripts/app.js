@@ -55,6 +55,10 @@ angular
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
       })
+      .when('/heatmap', {
+        templateUrl: 'views/explore.html',
+        controller: 'ExploreCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

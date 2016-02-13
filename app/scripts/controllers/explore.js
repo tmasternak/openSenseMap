@@ -29,6 +29,13 @@ angular.module('openSenseMapApp')
       $scope.values = [];
       $scope.currentState = ''; //Check state of plots
 
+      // show heatmap when url contains "/heatmap"
+      // see explore.html <div ng-show="heatmapPanel">
+      if($location.path().indexOf("/heatmap") === 0) {
+        $scope.sidebarActive = true;
+        $scope.heatmapPanel = true;
+      }
+
       // todo: make this globally accessible, used in registration as well
       $scope.phenomenoms = [
         {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
