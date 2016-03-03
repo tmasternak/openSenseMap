@@ -55,7 +55,7 @@ angular
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
       })
-      .when('/heatmap', {
+      .when('/interpolation', {
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
       })

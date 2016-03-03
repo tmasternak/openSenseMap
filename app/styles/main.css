@@ -386,3 +386,16 @@ div.box {
   cursor: pointer;
   text-decoration: underline;
 }
+
+
+/*marcs BA stuff*/
+#plotdiv {
+    height: 400px;
+    border: solid gray 1px;
+}
+
+pre {
+    border: solid gray 1px;
+    padding: 5px;
+    margin: 10px;
+}

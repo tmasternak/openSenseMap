@@ -86,6 +86,35 @@ angular.module('openSenseMapApp')
         }
       });
 
+     
+
+        // $scope.defaults = {
+        //     tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
+        //     tileLayerOptions: {
+        //       subdomains: '1234',
+        //       //attribution in info modal
+        //       detectRetina: true,
+        //       reuseTiles: true
+        //     },
+        //     scrollWheelZoom: true,
+        //     center: {
+        //       lat: 51.04139389812637,
+        //       lng: 10.21728515625,
+        //       zoom: 5
+        //     }
+        // };
+
+        // $scope.layers = {
+        //       baselayers: {
+        //                 xyz: {
+        //                     name: 'OpenStreetMap (XYZ)',
+        //                     url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        //                     type: 'xyz'
+        //                 }
+        //             },
+        //       overlays: {}
+        //     };
+          
       $scope.defaults = {
         tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
         tileLayerOptions: {

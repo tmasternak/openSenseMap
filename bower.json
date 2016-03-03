@@ -28,7 +28,8 @@
     "angular-translate": "~2.7",
     "angular-translate-loader-static-files": "~2.7.1",
     "highcharts-release": "*",
-    "highcharts-ng": "*"
+    "highcharts-ng": "*",
+    "opencpu": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.3",

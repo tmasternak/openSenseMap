@@ -1,5 +1,8 @@
 'use strict';
 
+// ocpu.seturl("http://localhost:5436/ocpu/library/inteRsense/R");
+ocpu.seturl("https://public.opencpu.org/ocpu/github/mdragunski/inteRsense/R");
+
 angular.module('openSenseMapApp')
   .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData', 'OpenSenseBoxAPI',
     function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData, OpenSenseBoxAPI) {
@@ -29,11 +32,11 @@ angular.module('openSenseMapApp')
       $scope.values = [];
       $scope.currentState = ''; //Check state of plots
 
-      // show heatmap when url contains "/heatmap"
-      // see explore.html <div ng-show="heatmapPanel">
-      if($location.path().indexOf("/heatmap") === 0) {
+      // show interpolation when url contains "/interpolation"
+      // see explore.html <div ng-show="interpolationPanel">
+      if($location.path().indexOf("/interpolation") === 0) {
         $scope.sidebarActive = true;
-        $scope.heatmapPanel = true;
+        $scope.interpolationPanel = true;
       }
 
       // todo: make this globally accessible, used in registration as well
@@ -606,4 +609,223 @@ angular.module('openSenseMapApp')
         }
         
       };
+
+      /////marc stuff////
+
+      console.log($scope.mapMarkers);
+     
+        var testJSON = [{
+    "name": "Bremer Platz",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "12",
+    "createdAt": "2015-04-30T13:22:48.545Z",
+    "latitude": 51.95663051646247,
+    "longitude": 7.638084768987028
+}, {
+    "name": "Hurraki",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "24",
+    "createdAt": "2015-10-24T10:07:17.975Z",
+    "latitude": 47.98904565179757,
+    "longitude": 7.82081812614706
+}, {
+    "name": "mySenseBerlin",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "9.3",
+    "createdAt": "2015-12-06T15:53:15.536Z",
+    "latitude": 52.586744770634546,
+    "longitude": 13.359230607720747
+}, {
+    "name": "hessetho_1",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "15",
+    "createdAt": "2015-04-19T06:59:58.150Z",
+    "latitude": 49.68248902032355,
+    "longitude": 8.627132177352905
+}, {
+    "name": "InfoSphere-SenseBox",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "27",
+    "createdAt": "2015-03-05T07:16:17.900Z",
+    "latitude": 50.78110626861112,
+    "longitude": 6.1039188131690025
+}, {
+    "name": "FabLabMucSenseBox",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "4",
+    "createdAt": "2015-02-23T21:05:39.298Z",
+    "latitude": 48.137232073694676,
+    "longitude": 11.534285824745893
+}, {
+    "name": "SenseBoxBobingen",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "6.2",
+    "createdAt": "2015-10-14T02:19:42.501Z",
+    "latitude": 48.27526029852234,
+    "longitude": 10.829493820710923
+}, {
+    "name": "SenseBox Schneefernerhaus - Zugspitze",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "-39.99",
+    "createdAt": "2016-01-14T13:17:59.056Z",
+    "latitude": 47.41642927123588,
+    "longitude": 10.979642048478127
+}, {
+    "name": "cccamp15 kglbamt",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "24.5",
+    "createdAt": "2015-08-16T19:02:05.346Z",
+    "latitude": 53.030829534153455,
+    "longitude": 13.307422958314419
+}, {
+    "name": "Baggersee Weingarten",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "17.2",
+    "createdAt": "2015-09-20T19:40:02.302Z",
+    "latitude": 49.0711669588361,
+    "longitude": 8.523674011230469
+}, {
+    "name": "TrollStation",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "-0.3",
+    "createdAt": "2016-01-17T11:21:41.476Z",
+    "latitude": 52.02985833597204,
+    "longitude": 11.431306600570679
+}, {
+    "name": "SenseBox Schneefernerkopf - Zugspitze",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "-1.09",
+    "createdAt": "2016-01-25T10:08:38.868Z",
+    "latitude": 47.411713802829894,
+    "longitude": 10.968947410583494
+}, {
+    "name": "Testbox",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "5",
+    "createdAt": "2016-01-25T08:39:20.816Z",
+    "latitude": 47.98920402185428,
+    "longitude": 7.820871304697903
+}, {
+    "name": "Rieders Station Arnstadt",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "19.9",
+    "createdAt": "2016-01-04T12:19:19.200Z",
+    "latitude": 50.83667564893264,
+    "longitude": 10.921563506126404
+}, {
+    "name": "mySenseBerlin",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "8",
+    "createdAt": "2016-01-25T10:08:08.493Z",
+    "latitude": 52.586751289041494,
+    "longitude": 13.359240889549255
+}, {
+    "name": "mySenseKritzkow",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "23.5",
+    "createdAt": "2015-12-27T11:53:11.954Z",
+    "latitude": 53.88158363753247,
+    "longitude": 12.251547574996948
+}, {
+    "name": "FabLab Paderborn e.V.",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "25.46",
+    "createdAt": "2016-01-14T15:55:21.216Z",
+    "latitude": 51.71625446118619,
+    "longitude": 8.776633143424988
+}, {
+    "name": "GroÃŸsedlitz",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "22.77",
+    "createdAt": "2016-01-17T10:59:02.867Z",
+    "latitude": 50.95689748147324,
+    "longitude": 13.888012293346035
+}, {
+    "name": "WG Wolbecker Str.",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "17.45",
+    "createdAt": "2016-01-25T09:52:27.440Z",
+    "latitude": 51.957090029248754,
+    "longitude": 7.640642523765564
+}, {
+    "name": "shackspace",
+    "exposure": "outdoor",
+    "title": "Temperatur",
+    "value": "8.16",
+    "createdAt": "2016-01-25T10:08:14.946Z",
+    "latitude": 48.77702545228982,
+    "longitude": 9.236100912094116
+}
+];
+      var imageBounds;
+      var overlayImage = null;
+      $scope.idp = 0;
+      $scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+     
+      $scope.makeChart = function(){
+
+        if (overlayImage != null) {
+          leafletData.getMap().then(function(map) {
+                map.removeLayer(overlayImage);
+              });
+        };
+
+        var req2 = ocpu.rpc("imageBounds",{
+                input : testJSON
+            }, function(outtxt){
+                $("#output").text(outtxt);
+                imageBounds = [[outtxt[0], outtxt[1]],[outtxt[2], outtxt[3]]];
+            });
+
+        var req = ocpu.call("inteRidwTest", {
+
+            input : testJSON,
+            x : $scope.idp
+
+          }, function(session) {
+
+              $("#key").text(session.getKey());
+              $("#location").text(session.getLoc());
+              $("#fileurl").text(session.getFileURL("idw.png"));
+
+              leafletData.getMap().then(function(map) {
+                overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
+                map.addLayer(overlayImage);
+              });
+
+
+              }).fail(function(){
+                alert("R returned an error: " + req.responseText); 
+              });
+        
+        // setTimeout(function(){
+        //     var req2 = ocpu.rpc("imageBounds",{
+        //         input : testJSON
+        //     }, function(outtxt){
+        //     $("#output").text(outtxt);
+        //     });
+        // }, 5000);        
+    
+      };
+
     }]);
