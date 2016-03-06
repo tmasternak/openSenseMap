@@ -776,13 +776,18 @@ angular.module('openSenseMapApp')
     "longitude": 9.236100912094116
 }
 ];
+      //var imageBounds = [[46.955917, 5.959302], [54.04408, 14.03326]]; bbox of llSPix (IDW object in R)
+      //var imageBounds = [[47.411713802829894, 6.1039188131690025], [53.88158363753247, 13.888012293346035]];
       var imageBounds;
       var overlayImage = null;
-      $scope.idp = 0;
+      $scope.idp = 1;
       $scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      var world;
 
      
-      $scope.makeChart = function(){
+      $scope.makeIDW = function(){
+
+        $scope.loading = true;
 
         if (overlayImage != null) {
           leafletData.getMap().then(function(map) {
@@ -793,20 +798,59 @@ angular.module('openSenseMapApp')
         var req2 = ocpu.rpc("imageBounds",{
                 input : testJSON
             }, function(outtxt){
-                $("#output").text(outtxt);
-                imageBounds = [[outtxt[0], outtxt[1]],[outtxt[2], outtxt[3]]];
+                imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
+                console.log(imageBounds);
             });
 
-        var req = ocpu.call("inteRidwTest", {
+        var req = ocpu.call("inteRidwIdp", {
 
             input : testJSON,
             x : $scope.idp
 
           }, function(session) {
 
-              $("#key").text(session.getKey());
-              $("#location").text(session.getLoc());
-              $("#fileurl").text(session.getFileURL("idw.png"));
+              // $("#key").text(session.getKey());
+              // $("#location").text(session.getLoc());
+              // $("#fileurl").text(session.getFileURL("idw.png"));
+
+                $scope.loading = false;
+
+                leafletData.getMap().then(function(map) {
+                  overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
+                  map.addLayer(overlayImage);
+                });
+
+
+              }).fail(function(){
+                alert("R returned an error: " + req.responseText); 
+              });
+
+      };
+
+      $scope.makeTP = function(){
+
+        $scope.loading = true;
+
+        if (overlayImage != null) {
+          leafletData.getMap().then(function(map) {
+                map.removeLayer(overlayImage);
+              });
+        };
+
+        var req2 = ocpu.rpc("imageBounds",{
+                input : testJSON
+            }, function(outtxt){
+                imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
+                console.log(imageBounds);
+            });
+
+        var req = ocpu.call("inteRtp", {
+
+            input : testJSON,
+
+          }, function(session) {
+
+              $scope.loading = false;
 
               leafletData.getMap().then(function(map) {
                 overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
@@ -817,15 +861,7 @@ angular.module('openSenseMapApp')
               }).fail(function(){
                 alert("R returned an error: " + req.responseText); 
               });
-        
-        // setTimeout(function(){
-        //     var req2 = ocpu.rpc("imageBounds",{
-        //         input : testJSON
-        //     }, function(outtxt){
-        //     $("#output").text(outtxt);
-        //     });
-        // }, 5000);        
-    
+
       };
 
     }]);

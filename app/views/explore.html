@@ -169,17 +169,20 @@
             Geostatisics
             <i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
           </h3>
-          <input type='submit' value='Submit' class='btn btn-success' ng-click='makeChart()'/> <br>
-          Session ID: <tt id="key"></tt> <br >
-          Session Location: <tt id="location"></tt> <br>
-          File URL: <tt id="fileurl"></tt> <br>
-          <!-- <input type='submit' value='Submit' class='btn btn-success' ng-click='makeOverlay()'/> -->
-          <pre><code id="output"></code></pre>
-          <input class="form-control" ng-model="idp"> <br>
-          <!-- <select class="form-control" ng-model="idp">
+          <input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()'/>
+          <!-- <img id="mySpinner" src="../images/ajax-loader.gif" ng-show="loading" /> -->
+          <input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()'/>
+          <img id="mySpinner" src="../images/ajax-loader.gif" ng-show="loading" /> <br>
+          <br>
+          Auswahl des Parameters p für die IDW Interpolation:
+          <select class="form-control" ng-model="idp">
                 <option ng-repeat="p in idpPool" value="{{p}}">{{p}}</option>
-          </select> <br> -->
-          <tt>singleSelect = {{idp}}</tt>
+          </select> <br>
+          <!-- Session ID: <tt id="key"></tt> <br >
+          Session Location: <tt id="location"></tt> <br>
+          File URL: <tt id="fileurl"></tt> <br> -->
+          <!-- <pre><code id="output"></code></pre> -->
+          <!-- <input class="form-control" ng-model="idp"> <br> -->
         </div>
       </div>
     </div> <!-- end interpolationPanel -->
