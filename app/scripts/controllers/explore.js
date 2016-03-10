@@ -1,6 +1,6 @@
 'use strict';
 
-// ocpu.seturl("http://localhost:5436/ocpu/library/inteRsense/R");
+ //ocpu.seturl("http://localhost:9928/ocpu/library/inteRsense/R");
 ocpu.seturl("https://public.opencpu.org/ocpu/github/mdragunski/inteRsense/R");
 
 angular.module('openSenseMapApp')
@@ -776,13 +776,26 @@ angular.module('openSenseMapApp')
     "longitude": 9.236100912094116
 }
 ];
-      //var imageBounds = [[46.955917, 5.959302], [54.04408, 14.03326]]; bbox of llSPix (IDW object in R)
-      //var imageBounds = [[47.411713802829894, 6.1039188131690025], [53.88158363753247, 13.888012293346035]];
+
+      var testJSON0702 = [{ "name": "mySenseBerlin", "exposure": "outdoor", "title": "Temperatur", "value": "20.5", "createdAt": "2016-02-07T03:50:04.554Z", "latitude": 52.586751289041494, "longitude": 13.359240889549255 },
+        { "name": "GroÃŸsedlitz", "exposure": "outdoor", "title": "Temperatur", "value": "4.37", "createdAt": "2016-02-07T03:50:49.931Z", "latitude": 50.95689748147324, "longitude": 13.888012293346035 },
+        { "name": "WG Wolbecker Str.", "exposure": "outdoor", "title": "Temperatur", "value": "16.96", "createdAt": "2016-02-07T03:50:16.681Z", "latitude": 51.957090029248754, "longitude": 7.640642523765564 },
+        { "name": "shackspace", "exposure": "outdoor", "title": "Temperatur", "value": "4.24", "createdAt": "2016-02-07T03:50:06.617Z", "latitude": 48.77702545228982, "longitude": 9.236100912094116 },
+        { "name": "ILS Dortmund", "exposure": "outdoor", "title": "Temperatur", "value": "11.33", "createdAt": "2016-02-07T03:50:48.103Z", "latitude": 51.51524929214015, "longitude": 7.471706271171569 },
+        { "name": "Wissenschaftsladen Dortmund", "exposure": "outdoor", "title": "Temperatur", "value": "14.46", "createdAt": "2016-02-07T03:50:33.962Z", "latitude": 51.5276742, "longitude": 7.46499273086452 },
+        { "name": "Toolbox Bodensee e.V. - Alpha", "exposure": "outdoor", "title": "Temperatur", "value": "-0.39", "createdAt": "2016-02-07T03:50:40.447Z", "latitude": 47.7127718991752, "longitude": 9.398739337921143 },
+        { "name": "SB_Bremen_1", "exposure": "outdoor", "title": "Temperatur", "value": "19.12", "createdAt": "2016-02-07T03:50:37.494Z", "latitude": 53.1180526, "longitude": 8.8930735 }
+    ];
+
+      //var imageBounds = [[46.955917, 5.959302], [54.04408, 14.03326]]; // bbox of llSPix (IDW object in R)
+      //var imageBounds = [[46.95, 5.95], [54.05000, 14.06116]];
+      
       var imageBounds;
+      var imageBoundsLegend;
       var overlayImage = null;
-      $scope.idp = 1;
+      var overlayImageLegend = null;
+      $scope.idp = 0;
       $scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      var world;
 
      
       $scope.makeIDW = function(){
@@ -792,6 +805,7 @@ angular.module('openSenseMapApp')
         if (overlayImage != null) {
           leafletData.getMap().then(function(map) {
                 map.removeLayer(overlayImage);
+                map.removeLayer(overlayImageLegend);
               });
         };
 
@@ -799,7 +813,9 @@ angular.module('openSenseMapApp')
                 input : testJSON
             }, function(outtxt){
                 imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
+                imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
                 console.log(imageBounds);
+                console.log(imageBoundsLegend);
             });
 
         var req = ocpu.call("inteRidwIdp", {
@@ -812,14 +828,18 @@ angular.module('openSenseMapApp')
               // $("#key").text(session.getKey());
               // $("#location").text(session.getLoc());
               // $("#fileurl").text(session.getFileURL("idw.png"));
+              console.log(session.getFileURL("legend.png"));
 
                 $scope.loading = false;
 
                 leafletData.getMap().then(function(map) {
                   overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
                   map.addLayer(overlayImage);
+                  if ($scope.idp != 0) {
+                    overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+                    map.addLayer(overlayImageLegend);
+                  };
                 });
-
 
               }).fail(function(){
                 alert("R returned an error: " + req.responseText); 
@@ -834,6 +854,7 @@ angular.module('openSenseMapApp')
         if (overlayImage != null) {
           leafletData.getMap().then(function(map) {
                 map.removeLayer(overlayImage);
+                map.removeLayer(overlayImageLegend);
               });
         };
 
@@ -841,21 +862,25 @@ angular.module('openSenseMapApp')
                 input : testJSON
             }, function(outtxt){
                 imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
+                imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
                 console.log(imageBounds);
+                console.log(imageBoundsLegend);
             });
 
         var req = ocpu.call("inteRtp", {
 
-            input : testJSON,
+            input : testJSON
 
           }, function(session) {
 
               $scope.loading = false;
 
               leafletData.getMap().then(function(map) {
-                overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-                map.addLayer(overlayImage);
-              });
+                  overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
+                  map.addLayer(overlayImage);
+                  overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+                  map.addLayer(overlayImageLegend);
+                });
 
 
               }).fail(function(){
